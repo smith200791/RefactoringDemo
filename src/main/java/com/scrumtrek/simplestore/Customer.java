@@ -20,6 +20,12 @@ public class Customer {
 		m_Rentals.add(arg);
 	}
 
+	
+	
+	public List<Rental> getM_Rentals() {
+		return m_Rentals;
+	}
+
 	public String Statement()
 	{
 		double totalAmount = 0;
