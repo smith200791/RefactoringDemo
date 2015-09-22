@@ -5,7 +5,7 @@ public class Movie {
 	private PriceCodes m_PriceCode;
 
 	public Movie(String title, PriceCodes priceCode) {
-		title = title;
+		m_Title = title;
 		m_PriceCode = priceCode;
 	}
 
