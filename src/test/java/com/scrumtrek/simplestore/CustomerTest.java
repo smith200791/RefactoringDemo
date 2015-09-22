@@ -1,6 +1,7 @@
 package com.scrumtrek.simplestore;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import java.util.List;
 
@@ -8,8 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CustomerTest {
-	
-	
+
 	private Customer sut;
 
 	@Before
@@ -21,7 +21,6 @@ public class CustomerTest {
 	public void shouldSizeIncrementalWhenRentalAddToCustomer() {
 
 		// given
-
 		Rental dummy = new Rental(new Movie("testMove", PriceCodes.Regular), 11);
 
 		// when
@@ -31,12 +30,29 @@ public class CustomerTest {
 		List<Rental> m_Rentals = sut.getM_Rentals();
 
 		assertEquals(1, m_Rentals.size());
-
 	}
-	
+
+	@Test
+	public void shouldReantalAddedInTailWhenRentalAdded() {
+
+		// given
+		Rental dummy = new Rental(new Movie("testMove", PriceCodes.Regular), 11);
+
+		Rental dummy2 = new Rental(new Movie("testMove", PriceCodes.Regular), 11);
+
+		
+		// when
+		sut.addRental(dummy);
+
+		//then
+		
+		int size = sut.getM_Rentals().size();
+		assertSame(dummy, sut.getM_Rentals().get(size-1));
+	}
+
 	@Test
 	public void shouldNameTheSameWhenCustomerCreated() {
-		assertEquals("Ivan",sut.getName());
+		assertEquals("Ivan", sut.getName());
 	}
 
 }
