@@ -60,8 +60,6 @@ public class CustomerTest {
 	public void shouldCustomerStatementCallChildrenCalcWhenMoiveForChildren() {
 		Movie stubMovie = mock(Movie.class);
 		when(stubMovie.getPriceCode()).thenReturn(PriceCodes.Childrens);
-		
-		
 		Rental stubRental = mock(Rental.class);
 		when(stubRental.getMovie()).thenReturn(stubMovie);
 		
@@ -70,7 +68,30 @@ public class CustomerTest {
 		Customer customer = spy(sut);
 		
 		when(customer.statement()).thenCallRealMethod();
-		verify(customer).calculateAmountForChildren(eq(stubRental), anyInt());
+		verify(customer).calculateAmountForChildren(eq(stubRental), anyInt());	
 		
 	}
+	
+	@Test
+	public void shouldTotalAmountResultContainsInResultStringWhenMoiveForChildren() {
+		Movie stubMovie = mock(Movie.class);
+		when(stubMovie.getPriceCode()).thenReturn(PriceCodes.Childrens);
+		Rental stubRental = mock(Rental.class);
+		when(stubRental.getMovie()).thenReturn(stubMovie);
+		
+		sut.addRental(stubRental);
+		
+		Customer customer = spy(sut);
+		
+		
+		
+	//	when(customer.calculateAmountForChildren(any(Rental.class), anyInt())).thenReturn(1.0);
+		when(customer.statement()).thenCallRealMethod();
+		
+		org.fest.assertions.Assertions.assertThat(customer.statement()).contains("1.5");
+		
+		
+	}
+	
+	
 }
