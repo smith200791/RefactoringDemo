@@ -35,7 +35,7 @@ public class CustomerTest {
 		sut.addRental(sRental);
 
 		// then
-		List<Rental> m_Rentals = sut.getM_Rentals();
+		List<Rental> m_Rentals = sut.getRentals();
 
 		assertEquals(1, m_Rentals.size());
 	}
@@ -55,8 +55,8 @@ public class CustomerTest {
 
 		// then
 
-		int size = sut.getM_Rentals().size();
-		assertSame(sRental, sut.getM_Rentals().get(size - 1));
+		int size = sut.getRentals().size();
+		assertSame(sRental, sut.getRentals().get(size - 1));
 	}
 
 	@Test
