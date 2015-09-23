@@ -1,9 +1,14 @@
+
 package com.scrumtrek.simplestore;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.List;
 
 import org.junit.Before;
@@ -20,11 +25,14 @@ public class CustomerTest {
 
 	@Test
 	public void shouldSizeIncrementalWhenRentalAddToCustomer() {
+		RentalStubBuilder rentalStubBuilder = new RentalStubBuilder();
+		
+		MoiveStubBuilder moiveStubBuilder = new MoiveStubBuilder();
 		// given
-		Rental dummy = new Rental(new Movie("testMove", PriceCodes.Regular), 11);
+		Rental sRental = rentalStubBuilder.withMovie(moiveStubBuilder.build()).build();
 
 		// when
-		sut.addRental(dummy);
+		sut.addRental(sRental);
 
 		// then
 		List<Rental> m_Rentals = sut.getM_Rentals();
@@ -35,18 +43,20 @@ public class CustomerTest {
 	@Test
 	public void shouldReantalAddedInTailWhenRentalAdded() {
 
+		
+		RentalStubBuilder rentalStubBuilder = new RentalStubBuilder();
+		
+		MoiveStubBuilder moiveStubBuilder = new MoiveStubBuilder();
 		// given
-		Rental dummy = new Rental(new Movie("testMove", PriceCodes.Regular), 11);
-
-		Rental dummy2 = new Rental(new Movie("testMove", PriceCodes.Regular), 11);
+		Rental sRental = rentalStubBuilder.withMovie(moiveStubBuilder.build()).build();
 
 		// when
-		sut.addRental(dummy);
+		sut.addRental(sRental);
 
 		// then
 
 		int size = sut.getM_Rentals().size();
-		assertSame(dummy, sut.getM_Rentals().get(size - 1));
+		assertSame(sRental, sut.getM_Rentals().get(size - 1));
 	}
 
 	@Test
@@ -56,60 +66,68 @@ public class CustomerTest {
 
 	@Test
 	public void shouldCustomerStatementCallChildrenCalcWhenMoiveForChildren() {
-		Movie stubMovie = mock(Movie.class);
-		when(stubMovie.getPriceCode()).thenReturn(PriceCodes.Childrens);
-		Rental stubRental = mock(Rental.class);
-		when(stubRental.getMovie()).thenReturn(stubMovie);
+		MoiveStubBuilder builder = new MoiveStubBuilder();
+		Movie sMovie = builder.withPriceCodes(PriceCodes.Childrens).build();
 
-		sut.addRental(stubRental);
+		RentalStubBuilder rentalStubBuilder = new RentalStubBuilder();
+		Rental sRental = rentalStubBuilder.withMovie(sMovie).build();
+		
+		
+		sut.addRental(sRental);
 
 		Customer customer = spy(sut);
 
 		when(customer.statement()).thenCallRealMethod();
-		verify(customer).calculateAmountForChildren(eq(stubRental), anyInt());
+		verify(customer).calculateAmountForChildren(eq(sRental), anyInt());
 
 	}
 
 	@Test
 	public void shouldCustomerStatementCallNewReleaseCalcWhenMoiveForChildren() {
-		Movie stubMovie = mock(Movie.class);
-		when(stubMovie.getPriceCode()).thenReturn(PriceCodes.NewRelease);
-		Rental stubRental = mock(Rental.class);
-		when(stubRental.getMovie()).thenReturn(stubMovie);
+		MoiveStubBuilder builder = new MoiveStubBuilder();
+		Movie sMovie = builder.withPriceCodes(PriceCodes.NewRelease).build();
 
-		sut.addRental(stubRental);
+		RentalStubBuilder rentalStubBuilder = new RentalStubBuilder();
+		Rental sRental = rentalStubBuilder.withMovie(sMovie).build();
+		
+		
+		sut.addRental(sRental);
 
 		Customer customer = spy(sut);
 
 		when(customer.statement()).thenCallRealMethod();
-		verify(customer).caclculateAmountForNewRealease(eq(stubRental), anyInt());
+		verify(customer).caclculateAmountForNewRealease(eq(sRental), anyInt());
 
 	}
 
 	@Test
 	public void shouldCustomerStatementCallRegularCalcWhenMoiveForChildren() {
-		Movie stubMovie = mock(Movie.class);
-		when(stubMovie.getPriceCode()).thenReturn(PriceCodes.Regular);
-		Rental stubRental = mock(Rental.class);
-		when(stubRental.getMovie()).thenReturn(stubMovie);
+		MoiveStubBuilder builder = new MoiveStubBuilder();
+		Movie sMovie = builder.withPriceCodes(PriceCodes.Regular).build();
 
-		sut.addRental(stubRental);
+		RentalStubBuilder rentalStubBuilder = new RentalStubBuilder();
+		Rental sRental = rentalStubBuilder.withMovie(sMovie).build();
+		
+		
+		sut.addRental(sRental);
 
 		Customer customer = spy(sut);
 
 		when(customer.statement()).thenCallRealMethod();
-		verify(customer).calculateAmountForRegular(eq(stubRental), anyInt());
+		verify(customer).calculateAmountForRegular(eq(sRental), anyInt());
 
 	}
 
 	@Test
 	public void shouldTotalAmountResultContainsInResultStringWhenMoiveForChildren() {
-		Movie stubMovie = mock(Movie.class);
-		when(stubMovie.getPriceCode()).thenReturn(PriceCodes.Childrens);
-		Rental stubRental = mock(Rental.class);
-		when(stubRental.getMovie()).thenReturn(stubMovie);
+		MoiveStubBuilder builder = new MoiveStubBuilder();
+		Movie sMovie = builder.withPriceCodes(PriceCodes.Childrens).build();
 
-		sut.addRental(stubRental);
+		RentalStubBuilder rentalStubBuilder = new RentalStubBuilder();
+		Rental sRental = rentalStubBuilder.withMovie(sMovie).build();
+		
+		
+		sut.addRental(sRental);
 
 		Customer customer = spy(sut);
 
@@ -120,17 +138,42 @@ public class CustomerTest {
 
 	@Test
 	public void shouldTotalAmountResultContainsInResultStringWhenMoiveForChildrenAndRentalDaysGratest3() {
-		Movie stubMovie = mock(Movie.class);
-		when(stubMovie.getPriceCode()).thenReturn(PriceCodes.Childrens);
-		Rental stubRental = mock(Rental.class);
-		when(stubRental.getMovie()).thenReturn(stubMovie);
-		when(stubRental.getDaysRented()).thenReturn(5);
-		sut.addRental(stubRental);
-	
+		
+		MoiveStubBuilder builder = new MoiveStubBuilder();
+		Movie sMovie = builder.withPriceCodes(PriceCodes.Childrens).build();
+
+		RentalStubBuilder rentalStubBuilder = new RentalStubBuilder();
+		Rental sRental = rentalStubBuilder.withMovie(sMovie).withDaysRented(5).build();
+		
+		
+		sut.addRental(sRental);
+
 		Customer customer = spy(sut);
 
 		when(customer.statement()).thenCallRealMethod();
 		org.fest.assertions.Assertions.assertThat(customer.statement()).contains("3.0");
 
 	}
+
+	
+
+	@Test
+	public void shouldTotalAmountResultContainsInResultStringWhenMoiveForRegularAndRentalDaysGratest2() {
+		
+		MoiveStubBuilder builder = new MoiveStubBuilder();
+		Movie sMovie = builder.withPriceCodes(PriceCodes.Regular).build();
+
+		RentalStubBuilder rentalStubBuilder = new RentalStubBuilder();
+		Rental sRental = rentalStubBuilder.withMovie(sMovie).withDaysRented(5).build();
+		
+		
+		sut.addRental(sRental);
+
+		Customer customer = spy(sut);
+
+		when(customer.statement()).thenCallRealMethod();
+		org.fest.assertions.Assertions.assertThat(customer.statement()).contains("6.5");
+
+	}
+
 }
