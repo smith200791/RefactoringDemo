@@ -7,6 +7,13 @@
 	<artifactId>team03</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
+
+	<properties>
+		<downloadSources>true</downloadSources>
+		<downloadJavadocs>true</downloadJavadocs>
+	</properties>
+	
+	
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
