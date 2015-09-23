@@ -155,8 +155,6 @@ public class CustomerTest {
 
 	}
 
-	
-
 	@Test
 	public void shouldTotalAmountResultContainsInResultStringWhenMoiveForRegularAndRentalDaysGratest2() {
 		

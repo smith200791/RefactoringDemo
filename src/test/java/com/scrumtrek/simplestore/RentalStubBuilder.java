@@ -4,7 +4,7 @@ package com.scrumtrek.simplestore;
 import static org.mockito.Mockito.*;
 
 public class RentalStubBuilder {
-	private Movie movie;
+	private Movie movie = new MoiveStubBuilder().build(); 
 	private int daysCol;
 
 	public RentalStubBuilder withMovie(Movie movie) {

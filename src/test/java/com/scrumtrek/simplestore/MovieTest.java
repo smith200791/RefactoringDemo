@@ -8,7 +8,8 @@ public class MovieTest {
 
 	@Test
 	public void shouldMoveTitleSameWhenMovieCreated() {
-		Movie movie = new Movie("shurik", PriceCodes.Childrens);
+
+		Movie movie = new MoiveStubBuilder().withTitle("shurik").build();
 
 		assertEquals("shurik", movie.getTitle());
 
