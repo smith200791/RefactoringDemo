@@ -74,12 +74,12 @@ public class Customer {
 		return thisAmount;
 	}
 
-	private double caclculateAmountForNewRealease(Rental each, double thisAmount) {
+	public double caclculateAmountForNewRealease(Rental each, double thisAmount) {
 		thisAmount += each.getDaysRented() * 3;
 		return thisAmount;
 	}
 
-	private double calculateAmountForRegular(Rental each, double thisAmount) {
+	public double calculateAmountForRegular(Rental each, double thisAmount) {
 		thisAmount += 2;
 		if (each.getDaysRented() > 2) {
 			thisAmount += (each.getDaysRented() - 2) * 1.5;

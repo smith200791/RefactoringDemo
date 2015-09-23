@@ -71,7 +71,37 @@ public class CustomerTest {
 		verify(customer).calculateAmountForChildren(eq(stubRental), anyInt());	
 		
 	}
+	@Test
+	public void shouldCustomerStatementCallNewReleaseCalcWhenMoiveForChildren() {
+		Movie stubMovie = mock(Movie.class);
+		when(stubMovie.getPriceCode()).thenReturn(PriceCodes.NewRelease);
+		Rental stubRental = mock(Rental.class);
+		when(stubRental.getMovie()).thenReturn(stubMovie);
+		
+		sut.addRental(stubRental);
+		
+		Customer customer = spy(sut);
+		
+		when(customer.statement()).thenCallRealMethod();
+		verify(customer).caclculateAmountForNewRealease(eq(stubRental), anyInt());	
+		
+	}
 	
+	@Test
+	public void shouldCustomerStatementCallRegularCalcWhenMoiveForChildren() {
+		Movie stubMovie = mock(Movie.class);
+		when(stubMovie.getPriceCode()).thenReturn(PriceCodes.Regular);
+		Rental stubRental = mock(Rental.class);
+		when(stubRental.getMovie()).thenReturn(stubMovie);
+		
+		sut.addRental(stubRental);
+		
+		Customer customer = spy(sut);
+		
+		when(customer.statement()).thenCallRealMethod();
+		verify(customer).calculateAmountForRegular(eq(stubRental), anyInt());	
+		
+	}
 	@Test
 	public void shouldTotalAmountResultContainsInResultStringWhenMoiveForChildren() {
 		Movie stubMovie = mock(Movie.class);
