@@ -2,7 +2,8 @@ package com.scrumtrek.simplestore;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
-
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 import java.util.List;
 
 import org.junit.Before;
@@ -14,12 +15,11 @@ public class CustomerTest {
 
 	@Before
 	public void setUp() {
-		sut = new Customer("Ivan");
+		sut = new Customer("Ivan"); // fixture
 	}
 
 	@Test
 	public void shouldSizeIncrementalWhenRentalAddToCustomer() {
-
 		// given
 		Rental dummy = new Rental(new Movie("testMove", PriceCodes.Regular), 11);
 
@@ -55,4 +55,22 @@ public class CustomerTest {
 		assertEquals("Ivan", sut.getName());
 	}
 
+	
+	@Test
+	public void shouldCustomerStatementCallChildrenCalcWhenMoiveForChildren() {
+		Movie stubMovie = mock(Movie.class);
+		when(stubMovie.getPriceCode()).thenReturn(PriceCodes.Childrens);
+		
+		
+		Rental stubRental = mock(Rental.class);
+		when(stubRental.getMovie()).thenReturn(stubMovie);
+		
+		sut.addRental(stubRental);
+		
+		Customer customer = spy(sut);
+		
+		when(customer.statement()).thenCallRealMethod();
+		verify(customer).calculateAmountForChildren(eq(stubRental), anyInt());
+		
+	}
 }
